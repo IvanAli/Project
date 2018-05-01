@@ -17,11 +17,21 @@ function ($scope, $stateParams,$http) {
             
             $http.get(url).then(function(response){
             $scope.path = response.data.name;
+
         },function(error){
             alert("Unable to retrieve a path");
        	});
 
 	};
+
+	// $scope.AvatarList=function(){
+	// 	int i =0;
+	// 	while (i<7){
+	// 		if(i<$scope.path.size()) $scope.appears[i]=true;
+	// 		else $scope.apperas[i]=false;
+	// 		i++;
+	// 	}
+	// };
 
 
 

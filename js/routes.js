@@ -22,7 +22,8 @@ angular.module('app.routes', [])
   .state('page2', {
     url: '/page2',
     params:{
-      appears:null
+
+      appears:null // is the list of boolean permiting the apparition of the avatars in page2 with the ng-if
     },
     templateUrl: 'templates/page2.html',
     controller: 'page2Ctrl'
