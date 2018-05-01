@@ -11,12 +11,19 @@ angular.module('app.routes', [])
 
       .state('page', {
     url: '/page1',
+    params:{
+      path:null,
+      appears:null
+    },
     templateUrl: 'templates/page.html',
     controller: 'pageCtrl'
   })
 
   .state('page2', {
     url: '/page2',
+    params:{
+      appears:null
+    },
     templateUrl: 'templates/page2.html',
     controller: 'page2Ctrl'
   })
