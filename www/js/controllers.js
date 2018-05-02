@@ -1,38 +1,26 @@
 angular.module('app.controllers', [])
   
-.controller('pageCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('pageCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams,$http) {
 
   $scope.mdl = {};
 
-  $scope.getPath=function(){
+  $scope.getPath = function(){
 
+    source_id = $scope.mdl.source;
+    sink_id = $scope.mdl.destination;
+    url = "http://localhost:5000/shortest_path?source="+source_id+"&target="+sink_id;
+    
+    $http.get(url).then(function(response){
+    $scope.path = response.data.name;
 
-            source_id = $scope.mdl.source;
-            sink_id= $scope.mdl.destination;
-            url = "http://localhost:5000/shortest_path?source="+source_id+"&sink="+sink_id;
-            
-            $http.get(url).then(function(response){
-            $scope.path = response.data.name;
-
-        },function(error){
-            alert("Unable to retrieve a path");
-        });
+    }, function(error) {
+      alert("Unable to retrieve a path");
+    });
 
   };
-
-  // $scope.AvatarList=function(){
-  //  int i =0;
-  //  while (i<7){
-  //    if(i<$scope.path.size()) $scope.appears[i]=true;
-  //    else $scope.apperas[i]=false;
-  //    i++;
-  //  }
-  // };
-
-
 
 }])
    
@@ -45,41 +33,57 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('show_graphCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-  $scope.$on("$ionicView.loaded", function() {
-    // create an array with nodes
-    var nodes = new vis.DataSet([
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'}
-    ]);
+.controller('show_graphCtrl', ['$scope', '$stateParams', '$http',
+function ($scope, $stateParams, $http) {
+  //   $scope.$on("$ionicView.loaded", function() {
+  $scope.model = {};
 
-    // create an array with edges
-    var edges = new vis.DataSet([
-        {from: 1, to: 3},
-        {from: 1, to: 2},
-        {from: 2, to: 4},
-        {from: 2, to: 5}
-    ]);
-
-    // create a network
-    var container = document.getElementById('mynetwork');
-
-    // provide the data in the vis format
-    var data = {
+  $scope.getShortestPath = function() {
+    // First make request data (should put all of this in a new fun)
+    source_id = $scope.model.source_id;
+    target_id = $scope.model.target_id;
+    url = "http://localhost:5000/shortest_path?source=" + source_id + "&target=" + target_id;
+    $http.get(url).then(function(response) {
+      var DIR = '../img/';
+      var nodes = [];
+      var edges = [];
+      // Add nodes to list
+      for (var i = 0; i < response.data.length; i++) {
+        nodes.push({
+          id: response.data[i]["id"], 
+          shape: 'circularImage', 
+          image: DIR + response.data[i]["photo_filename"],
+          brokenImage: DIR + 'missing_image.png',
+          label: response.data[i]["name"]
+        });
+      }
+      // Add edges to list
+      for (var i = 0; i + 1 < response.data.length; i++) {
+        edges.push({from: response.data[i]["id"], to: response.data[i + 1]["id"]});
+      }
+      // create a network
+      var container = document.getElementById('mynetwork');
+      var data = {
         nodes: nodes,
         edges: edges
-    };
-    var options = {};
-
-    // initialize your network!
-    var network = new vis.Network(container, data, options);
-  });
+      };
+      var options = {
+        nodes: {
+          borderWidth: 4,
+          size: 30,
+          color: {
+            border: '#222222',
+            background: '#666666'
+          },
+          font:{color:'#eeeeee'}
+        },
+        edges: {
+          color: 'lightgray'
+        }
+      };
+      network = new vis.Network(container, data, options);
+    });
+  };
 
 }])
  

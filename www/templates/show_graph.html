@@ -1,8 +1,22 @@
 <script type="text/javascript" src="js/vis/dist/vis.js"></script>
 <link href="js/vis/dist/vis.css" rel="stylesheet" type="text/css" />
 
+
 <ion-view title="Page" id="page1">
   <ion-content padding="true" class="has-header">
+    <h4 id="page-heading1" style="color:#000000;">Source id</h4>
+    <form id="page-form1" class="list">
+      <label class="item item-input" id="source_id" name="name">
+        <input type="text" placeholder="" ng-model="model.source_id">
+      </label>
+    </form>
+    <h4 id="page-heading1" style="color:#000000;">To id</h4>
+    <form id="page-form1" class="list">
+      <label class="item item-input" id="target_id" name="name">
+        <input type="text" placeholder=""  ng-model="model.target_id">   
+      </label>
+    </form>
+    <a ng-click="getShortestPath()" id="page-button1" class="button button-positive button-block">Shortest path between ids</a> 
     <div id="mynetwork"></div>
   </ion-content>
 </ion-view>
