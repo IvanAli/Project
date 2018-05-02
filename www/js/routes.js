@@ -35,6 +35,12 @@ angular.module('app.routes', [])
     controller: 'show_graphCtrl'
   })
 
+  .state('show_shortest_path', {
+    url: '/show_shortest_path',
+    templateUrl: 'templates/show_shortest_path.html',
+    controller: 'show_shortest_pathCtrl'
+  })
+
 $urlRouterProvider.otherwise('/page1')
 
 

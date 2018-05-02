@@ -7,7 +7,7 @@ import json
 import numpy as np
 import os.path
 from collections import deque
-from graph_tool import Graph
+from graph_tool import Graph, GraphView
 from graph_tool.search import bfs_search, BFSVisitor
 from graph_tool.topology import shortest_path
 import pickle
@@ -20,6 +20,10 @@ graph = Graph(directed=False)
 
 graph_picklefile = "fake_graph.pickle"
 
+# Load data just in case
+graph_data_str = open("../facebook_graph.json")
+graph_data = json.load(graph_data_str)
+
 if os.path.isfile(graph_picklefile):
   print("Reading graph from file")
   with open(graph_picklefile, "rb") as in_file:
@@ -27,7 +31,6 @@ if os.path.isfile(graph_picklefile):
 else:
   print("Creating graph from data")
   # Read the friendship graph
-  graph_data = json.load(open("../facebook_graph.json"))
   graph_data = {int(key):value for key, value in graph_data.items()}
 
   id_map = {}
@@ -60,6 +63,29 @@ shortest_path_args = {
   'source': fields.Integer(required=True),
   'target': fields.Integer(required=True)
 }
+
+induced_subgraph_args = {
+  'root': fields.Integer(required=True),
+  'limit': fields.Integer(required=True)
+}
+
+class WholeGraph(Resource):
+  def get(self):
+    return graph_data
+
+class InducedSubgraph(Resource):
+  @use_args(induced_subgraph_args)
+  def get(self, args):
+    from depth_first_searcher import dfs_search_with_limit
+    root = int(args["root"])
+    limit = int(args["limit"])
+    vertices = dfs_search_with_limit(graph, graph.vertex(root), limit)
+    v_filter = graph.new_vertex_property('bool')
+    for v in vertices:
+      v_filter[v] = True
+    subgraph = GraphView(graph, v_filter)
+    from graph_json_builder import create_json_graph
+    return create_json_graph(subgraph)
 
 class ShortestPath(Resource):
   class VisitorExample(BFSVisitor):
@@ -94,6 +120,9 @@ class ShortestPath(Resource):
     return ret
 
 api.add_resource(ShortestPath, '/shortest_path')
+api.add_resource(WholeGraph, '/whole_graph')
+api.add_resource(InducedSubgraph, '/induced_subgraph')
+
 # api.add_resource(CutVertices, '/cut_vertices')
 
 if __name__ == '__main__':

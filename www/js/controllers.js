@@ -33,7 +33,62 @@ function ($scope, $stateParams) {
 
 }])
 
+
 .controller('show_graphCtrl', ['$scope', '$stateParams', '$http',
+function ($scope, $stateParams, $http) {
+  $scope.$on("$ionicView.loaded", function() {
+    // First make request data (should put all of this in a new fun)
+    url = "http://localhost:5000/whole_graph";
+    $http.get(url).then(function(response) {
+      var DIR = '../img/';
+      var nodes = [];
+      var edges = [];
+      // Add nodes and edges to list
+      cnt = 0
+      for (var key in response.data) {
+        if (response.data.hasOwnProperty(key)) {
+          console.log("pushing node " + cnt);
+          cnt++;
+          nodes.push({
+            id: parseInt(key), 
+            shape: 'circularImage', 
+            image: DIR + response.data[key]["photo_filename"],
+            brokenImage: DIR + 'missing_image.png',
+            label: response.data[key]["name"]
+          });
+          for (var j = 0; j < response.data[key]["friends"].length; j++) {
+            var friend_id = response.data[key]["friends"][j];
+            edges.push({from: parseInt(key), to: parseInt(friend_id)});
+          }
+        }
+      }
+      // create a network
+      var container = document.getElementById('mynetwork');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+        nodes: {
+          borderWidth: 1,
+          size: 5,
+          color: {
+            border: '#222222',
+            background: '#666666'
+          },
+          font:{color:'#eeeeee'}
+        },
+        edges: {
+          color: 'lightgray'
+        }
+      };
+      network = new vis.Network(container, data, options);
+    });
+  });
+
+}])
+ 
+.controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   //   $scope.$on("$ionicView.loaded", function() {
   $scope.model = {};
