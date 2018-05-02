@@ -91,6 +91,28 @@ function ($scope, $stateParams, $http) {
 .controller('show_induced_subgraphCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   $scope.model = {};
+  
+  getRank = function(value) {
+    if (value < 0.1) {
+      return "#808080";
+    }
+    if (value < 0.2) {
+      return "#469751";
+    }
+    if (value < 0.3) {
+      return "#33A992";
+    }
+    if (value < 0.4) {
+      return "#3C2BE2";
+    }
+    if (value < 0.6) {
+      return "#8F2D8B";
+    }
+    if (value < 0.7) {
+      return "#EBA246";
+    }
+    return "#B62A3C";
+  };
 
   // get the induced subgraph starting from some vertex for some given limit depth
   $scope.getInducedSubgraph = function() {
@@ -102,6 +124,7 @@ function ($scope, $stateParams, $http) {
       var DIR = '../img/';
       var nodes = [];
       var edges = [];
+      console.log("response received");
       // Add nodes and edges to list
       cnt = 0
       for (var key in response.data) {
@@ -111,7 +134,17 @@ function ($scope, $stateParams, $http) {
             shape: 'circularImage', 
             image: DIR + response.data[key]["photo_filename"],
             brokenImage: DIR + 'missing_image.png',
-            label: response.data[key]["name"]
+            label: response.data[key]["name"],
+            color: {
+              border: getRank(response.data[key]["closeness"])
+            },
+            font: {
+              color: getRank(response.data[key]["closeness"])
+            },
+            size: 15 + 25 * response.data[key]["vertex_betweenness"],
+            borderWidth: 3 + 3 * response.data[key]["articulation"],
+            borderWidthSelected: 5 + 3 * response.data[key]["articulation"],
+            title: response.data[key]["vertex_betweenness"].toString() + " betweenness\n" + response.data[key]["closeness"].toString() + " closeness\n" + response.data[key]["local_clustering"] + " clustering coefficient\n"
           });
           for (var j = 0; j < response.data[key]["friends"].length; j++) {
             var friend_id = response.data[key]["friends"][j];
@@ -125,6 +158,7 @@ function ($scope, $stateParams, $http) {
         nodes: nodes,
         edges: edges
       };
+      /*
       var options = {
         nodes: {
           borderWidth: 3,
@@ -139,16 +173,42 @@ function ($scope, $stateParams, $http) {
           color: 'lightgray'
         }
       };
+      */
+      var options = {};
       network = new vis.Network(container, data, options);
     });
   };
 
 }])
- 
+
+
+   
 .controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   //   $scope.$on("$ionicView.loaded", function() {
   $scope.model = {};
+
+  getRank = function(value) {
+    if (value < 0.1) {
+      return "#CCCCCC";
+    }
+    if (value < 0.3) {
+      return "#469751";
+    }
+    if (value < 0.6) {
+      return "#33A992";
+    }
+    if (value < 0.8) {
+      return "#3C2BE2";
+    }
+    if (value < 1.1) {
+      return "#8F2D8B";
+    }
+    if (value < 1.6) {
+      return "#EBA246";
+    }
+    return "#B62A3C";
+  };
 
   $scope.getShortestPath = function() {
     // First make request data (should put all of this in a new fun)
@@ -185,7 +245,10 @@ function ($scope, $stateParams, $http) {
           size: 30,
           color: {
             border: '#222222',
-            background: '#666666'
+            background: '#666666',
+            highlight: {
+              border: 'white'
+            }
           },
           font:{color:'#eeeeee'}
         },
