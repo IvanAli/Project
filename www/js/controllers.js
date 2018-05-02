@@ -87,6 +87,63 @@ function ($scope, $stateParams, $http) {
   });
 
 }])
+
+.controller('show_induced_subgraphCtrl', ['$scope', '$stateParams', '$http',
+function ($scope, $stateParams, $http) {
+  $scope.model = {};
+
+  // get the induced subgraph starting from some vertex for some given limit depth
+  $scope.getInducedSubgraph = function() {
+    // First make request data (should put all of this in a new fun)
+    root_id = $scope.model.root_id;
+    limit = $scope.model.limit;
+    url = "http://localhost:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
+    $http.get(url).then(function(response) {
+      var DIR = '../img/';
+      var nodes = [];
+      var edges = [];
+      // Add nodes and edges to list
+      cnt = 0
+      for (var key in response.data) {
+        if (response.data.hasOwnProperty(key)) {
+          nodes.push({
+            id: parseInt(key), 
+            shape: 'circularImage', 
+            image: DIR + response.data[key]["photo_filename"],
+            brokenImage: DIR + 'missing_image.png',
+            label: response.data[key]["name"]
+          });
+          for (var j = 0; j < response.data[key]["friends"].length; j++) {
+            var friend_id = response.data[key]["friends"][j];
+            edges.push({from: parseInt(key), to: parseInt(friend_id)});
+          }
+        }
+      }
+      // create a network
+      var container = document.getElementById('mynetwork');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+        nodes: {
+          borderWidth: 3,
+          size: 15,
+          color: {
+            border: '#222222',
+            background: '#666666'
+          },
+          font:{color:'#eeeeee'}
+        },
+        edges: {
+          color: 'lightgray'
+        }
+      };
+      network = new vis.Network(container, data, options);
+    });
+  };
+
+}])
  
 .controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {

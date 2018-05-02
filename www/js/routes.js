@@ -41,6 +41,13 @@ angular.module('app.routes', [])
     controller: 'show_shortest_pathCtrl'
   })
 
+  .state('show_induced_subgraph', {
+    url: '/show_induced_subgraph',
+    templateUrl: 'templates/show_induced_subgraph.html',
+    controller: 'show_induced_subgraphCtrl'
+  })
+  
+
 $urlRouterProvider.otherwise('/page1')
 
 
