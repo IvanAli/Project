@@ -11,7 +11,7 @@ function ($scope, $stateParams,$http) {
 
     source_id = $scope.mdl.source;
     sink_id = $scope.mdl.destination;
-    url = "http://localhost:5000/shortest_path?source="+source_id+"&target="+sink_id;
+    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source="+source_id+"&target="+sink_id;
     
     $http.get(url).then(function(response){
     $scope.path = response.data.name;
@@ -38,7 +38,7 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams, $http) {
   $scope.$on("$ionicView.loaded", function() {
     // First make request data (should put all of this in a new fun)
-    url = "http://localhost:5000/whole_graph";
+    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/whole_graph";
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
@@ -119,7 +119,7 @@ function ($scope, $stateParams, $http) {
     // First make request data (should put all of this in a new fun)
     root_id = $scope.model.root_id;
     limit = $scope.model.limit;
-    url = "http://localhost:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
+    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
@@ -214,7 +214,7 @@ function ($scope, $stateParams, $http) {
     // First make request data (should put all of this in a new fun)
     source_id = $scope.model.source_id;
     target_id = $scope.model.target_id;
-    url = "http://localhost:5000/shortest_path?source=" + source_id + "&target=" + target_id;
+    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source=" + source_id + "&target=" + target_id;
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
