@@ -9,46 +9,43 @@ angular.module('app.routes', [])
   $stateProvider
     
 
-      .state('page', {
-    url: '/page1',
-    params:{
-      path:null,
-      appears:null
-    },
-    templateUrl: 'templates/page.html',
-    controller: 'pageCtrl'
-  })
-
-  .state('page2', {
-    url: '/page2',
-    params:{
-
-      appears:null // is the list of boolean permiting the apparition of the avatars in page2 with the ng-if
-    },
-    templateUrl: 'templates/page2.html',
-    controller: 'page2Ctrl'
-  })
-
-  .state('show_graph', {
+      .state('menu.showedGraph', {
     url: '/show_graph',
-    templateUrl: 'templates/show_graph.html',
-    controller: 'show_graphCtrl'
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/show_graph.html',
+        controller: 'show_graphCtrl'
+      }
+    }
   })
 
-  .state('show_shortest_path', {
-    url: '/show_shortest_path',
-    templateUrl: 'templates/show_shortest_path.html',
-    controller: 'show_shortest_pathCtrl'
-  })
-
-  .state('show_induced_subgraph', {
+  .state('menu.inducedSubgraph', {
     url: '/show_induced_subgraph',
-    templateUrl: 'templates/show_induced_subgraph.html',
-    controller: 'show_induced_subgraphCtrl'
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/show_induced_subgraph.html',
+        controller: 'show_induced_subgraphCtrl'
+      }
+    }
   })
-  
 
-$urlRouterProvider.otherwise('/page1')
+  .state('menu.shortestPath', {
+    url: '/show_shortest_path',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/show_shortest_path.html',
+        controller: 'show_shortest_pathCtrl'
+      }
+    }
+  })
+
+  .state('menu', {
+    url: '/side-menu21',
+    templateUrl: 'templates/menu.html',
+    controller: 'menuCtrl'
+  })
+
+$urlRouterProvider.otherwise('/side-menu21/show_induced_subgraph')
 
 
 });

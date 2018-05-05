@@ -1,44 +1,13 @@
 angular.module('app.controllers', [])
   
-.controller('pageCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$http) {
-
-  $scope.mdl = {};
-
-  $scope.getPath = function(){
-
-    source_id = $scope.mdl.source;
-    sink_id = $scope.mdl.destination;
-    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source="+source_id+"&target="+sink_id;
-    
-    $http.get(url).then(function(response){
-    $scope.path = response.data.name;
-
-    }, function(error) {
-      alert("Unable to retrieve a path");
-    });
-
-  };
-
-}])
-   
-.controller('page2Ctrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-  $scope.appears = $stateParams.appears;
-
-}])
-
-
 .controller('show_graphCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   $scope.$on("$ionicView.loaded", function() {
     // First make request data (should put all of this in a new fun)
-    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/whole_graph";
+    root_id = 1;
+    limit = 2;
+    url = " http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
+    //url = " http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/whole_graph";
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
@@ -68,7 +37,7 @@ function ($scope, $stateParams, $http) {
         nodes: nodes,
         edges: edges
       };
-      var options = {
+      /*var options = {
         nodes: {
           borderWidth: 1,
           size: 5,
@@ -81,13 +50,14 @@ function ($scope, $stateParams, $http) {
         edges: {
           color: 'lightgray'
         }
-      };
+      };*/
+      var options = {};
       network = new vis.Network(container, data, options);
     });
   });
 
 }])
-
+   
 .controller('show_induced_subgraphCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   $scope.model = {};
@@ -119,7 +89,7 @@ function ($scope, $stateParams, $http) {
     // First make request data (should put all of this in a new fun)
     root_id = $scope.model.root_id;
     limit = $scope.model.limit;
-    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
+    url = " http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/induced_subgraph?root=" + root_id + "&limit=" + limit;
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
@@ -180,8 +150,6 @@ function ($scope, $stateParams, $http) {
   };
 
 }])
-
-
    
 .controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
@@ -214,7 +182,7 @@ function ($scope, $stateParams, $http) {
     // First make request data (should put all of this in a new fun)
     source_id = $scope.model.source_id;
     target_id = $scope.model.target_id;
-    url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source=" + source_id + "&target=" + target_id;
+    url = " http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source=" + source_id + "&target=" + target_id;
     $http.get(url).then(function(response) {
       var DIR = '../img/';
       var nodes = [];
@@ -261,5 +229,12 @@ function ($scope, $stateParams, $http) {
   };
 
 }])
- 
+   
+.controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+
+
+}])
  

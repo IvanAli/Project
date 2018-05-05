@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "menuSide",
   "version": "0.0.1",
   "description": "An Ionic project",
   "devDependencies": {
@@ -9,6 +9,6 @@
     "gulp-sass": "^3.1.0"
   },
   "dependencies": {
-    "vis": "^4.21.0"
+    "@ionic/pro": "1.0.20"
   }
 }
