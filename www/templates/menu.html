@@ -1,5 +1,6 @@
-<ion-side-menus enable-menu-with-back-views="false">
-  <ion-side-menu-content>
+<ion-side-menus enable-menu-with-back-views="false" >
+  <ion-side-menu-content edge-drag-threshold="true"
+  drag-content="false">
     <ion-nav-bar class="bar-stable">
       <ion-nav-back-button></ion-nav-back-button>
       <ion-nav-buttons side="left">
@@ -14,9 +15,10 @@
     </ion-header-bar>
     <ion-content padding="false" class="side-menu-left has-header ">
       <ion-list id="menu-list1">
-        <ion-item id="menu-list-item1" ui-sref="menu.showedGraph()" menu-close="">Show Graph</ion-item>
-        <ion-item id="menu-list-item2" ui-sref="menu.inducedSubgraph()" menu-close="">Induced Subgraph</ion-item>
-        <ion-item id="menu-list-item3" ui-sref="menu.shortestPath()" menu-close="">Shortest Path</ion-item>
+        <ion-item id="menu-list-item1" ui-sref="menu.show_graph()" menu-close="">Show Graph</ion-item>
+        <ion-item id="menu-list-item2" ui-sref="menu.show_induced_subgraph()" menu-close="">Induced Subgraph</ion-item>
+        <ion-item id="menu-list-item3" ui-sref="menu.show_shortest_path()" menu-close="">Shortest Path</ion-item>
+        <ion-item id="menu-list-item4" ui-sref="menu.theFriendshipNetwork()" menu-close="">Restart</ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>

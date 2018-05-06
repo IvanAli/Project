@@ -9,8 +9,12 @@ angular.module('app.routes', [])
   $stateProvider
     
 
-      .state('menu.showedGraph', {
+      .state('menu.show_graph', {
     url: '/show_graph',
+    params:{
+      name:null,
+      lastname:null
+    },
     views: {
       'side-menu21': {
         templateUrl: 'templates/show_graph.html',
@@ -19,7 +23,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('menu.inducedSubgraph', {
+  .state('menu.show_induced_subgraph', {
     url: '/show_induced_subgraph',
     views: {
       'side-menu21': {
@@ -29,7 +33,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('menu.shortestPath', {
+  .state('menu.show_shortest_path', {
     url: '/show_shortest_path',
     views: {
       'side-menu21': {
@@ -45,7 +49,17 @@ angular.module('app.routes', [])
     controller: 'menuCtrl'
   })
 
-$urlRouterProvider.otherwise('/side-menu21/show_induced_subgraph')
+  .state('menu.theFriendshipNetwork', {
+    url: '/welcome',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/theFriendshipNetwork.html',
+        controller: 'theFriendshipNetworkCtrl'
+      }
+    }
+  })
+
+$urlRouterProvider.otherwise('/side-menu21/welcome')
 
 
 });
