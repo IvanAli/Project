@@ -5,7 +5,6 @@ angular.module('app.controllers', [])
 .controller('show_graphCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   $scope.name = $stateParams.name;
-  $scope.lastname = $stateParams.lastname;
   getRank = function(value) {
     if (value < 0.1) {
       return "#808080";
@@ -244,7 +243,7 @@ function ($scope, $stateParams, $http) {
 .controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
   $scope.$on("$ionicView.loaded", function() {
-    source_name = $stateParams.source_name;
+    $scope.name = $stateParams.name;
     //Put your script in here!
     console.log("hello world");
     // Create a new XMLHttpRequest.
@@ -274,9 +273,9 @@ function ($scope, $stateParams, $http) {
           // Update the placeholder text.
           // source_input.placeholder = "Search for a name";
           target_input.placeholder = "Search for a name";
-          console.log("name: " + source_name);
-          if (source_name != null) {
-            source_input.value = source_name;
+          console.log("name: " + $scope.name);
+          if ($scope.name != null) {
+            source_input.value = $scope.name;
           } else {
             source_input.placeholder = "Search for a name";
           }
@@ -326,7 +325,7 @@ function ($scope, $stateParams, $http) {
 
   $scope.getShortestPath = function() {
     // First make request data (should put all of this in a new fun)
-    // $scope.source_name = $stateParams.source_name;
+    // $scope.$scope.name = $stateParams.$scope.name;
     source = $scope.model.source_id;
     target = $scope.model.target_id;
     $http.get("http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/get_user_id?name=" + source).then(function(response_s) {
@@ -407,7 +406,6 @@ function ($scope, $stateParams) {
   $scope.$on("$ionicView.loaded", function() {
 
     //Put your script in here!
-    console.log("hello world");
     // Create a new XMLHttpRequest.
     var request = new XMLHttpRequest();
 
