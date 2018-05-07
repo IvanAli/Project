@@ -1,9 +1,9 @@
 <ion-view title="show_induced_subgraph" id="page2">
   <ion-content padding="true" class="has-header">
-  	<h4 id="page-heading3" style="color:#000000;">Root id</h4>
+    <h4 id="page-heading3" style="color:#000000;">Root id</h4>
     <form id="page-form1" class="list">
       <label class="item item-input" id="root_id" name="root_id">
-        <input type="text" placeholder="" ng-model="model.root_id">
+        <input type="text" placeholder="" ng-model="model.root_id" list="json-datalist">
       </label>
     </form>
     <h4 id="page-heading3" style="color:#000000;">Depth limit</h4>
@@ -12,6 +12,8 @@
         <input type="text" placeholder=""  ng-model="model.limit">   
       </label>
     </form>
+    <datalist id="json-datalist">
+    </datalist>
     <a ng-click="getInducedSubgraph()" id="page-button1" class="button button-positive button-block">Show who I am close to!</a> 
     <div id="mynetwork"></div>
   </ion-content>

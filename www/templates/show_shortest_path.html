@@ -1,18 +1,21 @@
 <ion-view title="show_shortest_path" id="page3">
   <ion-content padding="true" class="has-header">
-  	<h4 id="page-heading1" style="color:#000000;">Source id</h4>
+    <h1 id="theFriendshipNetwork-heading1" style="color:#000000;text-align:center;">Find the path between you and someone else!</h1>
+    <h4 id="page-heading1" style="color:#000000;">From who?</h4>
     <form id="page-form1" class="list">
       <label class="item item-input" id="source_id" name="name">
-        <input type="text" placeholder="" ng-model="model.source_id">
+        <input type="text" placeholder="" id="source" ng-model="model.source_id" value="" list="json-datalist">
       </label>
     </form>
-    <h4 id="page-heading1" style="color:#000000;">To id</h4>
+    <h4 id="page-heading1" style="color:#000000;">To who?</h4>
     <form id="page-form1" class="list">
       <label class="item item-input" id="target_id" name="name">
-        <input type="text" placeholder=""  ng-model="model.target_id">   
+        <input type="text" placeholder="" id="target" ng-model="model.target_id" list="json-datalist">   
       </label>
     </form>
-    <a ng-click="getShortestPath()" id="page-button1" class="button button-positive button-block">Shortest path between ids</a> 
+    <datalist id="json-datalist">
+    </datalist>
+    <a ng-click="getShortestPath()" id="page-button1" class="button button-positive button-block">Go!</a> 
     <div id="mynetwork"></div>
   </ion-content>
 </ion-view>

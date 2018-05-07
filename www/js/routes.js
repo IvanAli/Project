@@ -35,6 +35,9 @@ angular.module('app.routes', [])
 
   .state('menu.show_shortest_path', {
     url: '/show_shortest_path',
+    params: {
+      source_name: null
+    },
     views: {
       'side-menu21': {
         templateUrl: 'templates/show_shortest_path.html',

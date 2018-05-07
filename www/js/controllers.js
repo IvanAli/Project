@@ -188,6 +188,62 @@ function ($scope, $stateParams, $http) {
    
 .controller('show_shortest_pathCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
+  $scope.$on("$ionicView.loaded", function() {
+    source_name = $stateParams.source_name;
+    //Put your script in here!
+    console.log("hello world");
+    // Create a new XMLHttpRequest.
+    var request = new XMLHttpRequest();
+
+    // Handle state changes for the request.
+    request.onreadystatechange = function(response) {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          // Get the <datalist> and <input> elements.
+          var dataList = document.getElementById('json-datalist');
+          var source_input = document.getElementById('source');
+          var target_input = document.getElementById('target');
+          // Parse the JSON
+          var jsonOptions = JSON.parse(request.responseText);
+      
+          // Loop over the JSON array.
+          jsonOptions.forEach(function(item) {
+            // Create a new <option> element.
+            var option = document.createElement('option');
+            // Set the value using the item in the JSON array.
+            option.value = item;
+            // Add the <option> element to the <datalist>.
+            dataList.appendChild(option);
+          });
+          
+          // Update the placeholder text.
+          // source_input.placeholder = "Search for a name";
+          target_input.placeholder = "Search for a name";
+          console.log("name: " + source_name);
+          if (source_name != null) {
+            source_input.value = source_name;
+          } else {
+            source_input.placeholder = "Search for a name";
+          }
+        } else {
+          // An error occured :(
+          source_input.placeholder = "Couldn't load suggestions :(";
+          target_input.placeholder = "Couldn't load suggestions :(";
+        }
+      }
+    };
+
+    // Update the placeholder text.
+    // input.placeholder = "Loading options...";
+
+    // Set up and make the request.
+    request.open('GET', 'http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/all_names', true);
+    request.send();
+
+  });
+
+
+
   //   $scope.$on("$ionicView.loaded", function() {
   $scope.model = {};
 
@@ -215,6 +271,7 @@ function ($scope, $stateParams, $http) {
 
   $scope.getShortestPath = function() {
     // First make request data (should put all of this in a new fun)
+    // $scope.source_name = $stateParams.source_name;
     source_id = $scope.model.source_id;
     target_id = $scope.model.target_id;
     url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/shortest_path?source=" + source_id + "&target=" + target_id;
@@ -283,30 +340,51 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-  /*
-  $scope.shit = function() {
-    console.log("fuck");
-  };
+  $scope.$on("$ionicView.loaded", function() {
 
-  $scope.callbackMethod = function (query, isInitializing) {
-    console.log("calling this shit");
-    return [query];
-  };
-  */
-   $scope.items = [
-      {display: 'Hello'},
-      {display: 'Baha'},
-      {display: 'Ala'},
-      {display: 'Siwar'},
-      {display: 'Monira'},
-      {display: 'Samir'},
-      {display: 'Spange Bob'},
-      {display: 'Deneris Targariant'},
-      {display: 'Ned Stark'}
-  ];
-  $scope.onSelect = function (item) {
-      console.log('item', item);
-  };
+    //Put your script in here!
+    console.log("hello world");
+    // Create a new XMLHttpRequest.
+    var request = new XMLHttpRequest();
+
+    // Handle state changes for the request.
+    request.onreadystatechange = function(response) {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          // Get the <datalist> and <input> elements.
+          var dataList = document.getElementById('json-datalist');
+          var input = document.getElementById('name');
+
+          // Parse the JSON
+          var jsonOptions = JSON.parse(request.responseText);
+      
+          // Loop over the JSON array.
+          jsonOptions.forEach(function(item) {
+            // Create a new <option> element.
+            var option = document.createElement('option');
+            // Set the value using the item in the JSON array.
+            option.value = item;
+            // Add the <option> element to the <datalist>.
+            dataList.appendChild(option);
+          });
+          
+          // Update the placeholder text.
+          input.placeholder = "Search for your name";
+        } else {
+          // An error occured :(
+          input.placeholder = "Couldn't load suggestions :(";
+        }
+      }
+    };
+
+    // Update the placeholder text.
+    // input.placeholder = "Loading options...";
+
+    // Set up and make the request.
+    request.open('GET', 'http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/all_names', true);
+    request.send();
+
+  });
 
 }])
  
