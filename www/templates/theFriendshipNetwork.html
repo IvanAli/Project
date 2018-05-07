@@ -1,22 +1,36 @@
 <ion-view title="The Friendship Network" id="page4">
   <ion-content padding="true" class="has-header">
-    <h1 id="theFriendshipNetwork-heading1" style="color:#000000;text-align:center;">Welcome to the App!</h1>
+    <h1 id="theFriendshipNetwork-heading1" style="color:#000000;text-align:center;">Welcome to Tec's Friendship Network!</h1>
+    
     <form id="theFriendshipNetwork-form1" class="list">
       <label class="item item-input" id="theFriendshipNetwork-input1">
         <span class="input-label">Name?</span>
-        <input type="text" placeholder="Type your name!" ng-model = "mdl.name">
+        <!-- <input ion-autocomplete type="text"  class="ion-autocomplete" autocomplete="on" ng-model="mdl.search" items-method="shit()" max-selected-items="1" /> -->
+        <!-- <input type="text" placeholder="Type your name!" ng-model = "mdl.name"> -->
+        <!-- <input type="text" ionic-autocomplete="{items: items, onSelect:onSelect}" placeholder="Search ?" ng-model="search"/>-->
+        <input type="text" id="name" placeholder="Type your name!" ng-model = "mdl.name" list="json-datalist">
+        <datalist id="languages">
+          <option value="HTML">
+          <option value="CSS">
+          <option value="JavaScript">
+          <option value="Java">
+          <option value="Ruby">
+          <option value="PHP">
+          <option value="Go">
+          <option value="Erlang">
+          <option value="Python">
+          <option value="C">
+          <option value="C#">
+          <option value="C++">
+        </datalist>
+        <datalist id="json-datalist">
+        </datalist>
       </label>
     </form>
-    <form id="theFriendshipNetwork-form2" class="list">
-      <label class="item item-input" id="theFriendshipNetwork-input2">
-        <span class="input-label">Lastname?</span>
-        <input type="text" placeholder="Type your lastname!" ng-model = "mdl.lastname">
-      </label>
-    </form>
-    <a ui-sref="menu.show_graph({name: mdl.name, lastname: mdl.lastname})" id="theFriendshipNetwork-button1" class="button button-positive button-block">GO!</a>
+    <a ui-sref="menu.show_graph({name: mdl.name, lastname: mdl.lastname})" id="theFriendshipNetwork-button1" class="button button-positive button-block">Find friends close to me</a>
     <div id="theFriendshipNetwork-markdown1" style="text-align:center;" class="show-list-numbers-and-dots">
       <p style="color:#000000;">OR</p>
     </div>
-    <a ui-sref="menu.show_induced_subgraph()" id="theFriendshipNetwork-button2" class="button button-positive button-block">Tap me!</a>
+    <a ui-sref="menu.show_induced_subgraph()" id="theFriendshipNetwork-button2" class="button button-positive button-block">Find out how to reach someone</a>
   </ion-content>
 </ion-view>

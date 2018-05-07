@@ -1,4 +1,6 @@
+// var autocomplete = angular.module('ion-autocomplete', []);
 angular.module('app.controllers', [])
+
   
 .controller('show_graphCtrl', ['$scope', '$stateParams', '$http',
 function ($scope, $stateParams, $http) {
@@ -27,7 +29,7 @@ function ($scope, $stateParams, $http) {
   };
   $scope.$on("$ionicView.loaded", function() {
     // First make request data (should put all of this in a new fun)
-    $http.get("http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/get_user_id?name="+$scope.name+"%20"+$scope.lastname).then(function(response2){
+    $http.get("http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/get_user_id?name="+$scope.name).then(function(response2){
       var userId= response2.data;
       url = "http://ec2-18-144-6-174.us-west-1.compute.amazonaws.com:5000/induced_subgraph?root=" + userId + "&limit=" + 2;
       $http.get(url).then(function(response) {
@@ -38,7 +40,7 @@ function ($scope, $stateParams, $http) {
         cnt = 0
         for (var key in response.data) {
           if (response.data.hasOwnProperty(key)) {
-            console.log("pushing node " + cnt);
+            // console.log("pushing node " + cnt);
             cnt++;
             nodes.push({
               id: parseInt(key), 
@@ -281,7 +283,30 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+  /*
+  $scope.shit = function() {
+    console.log("fuck");
+  };
 
+  $scope.callbackMethod = function (query, isInitializing) {
+    console.log("calling this shit");
+    return [query];
+  };
+  */
+   $scope.items = [
+      {display: 'Hello'},
+      {display: 'Baha'},
+      {display: 'Ala'},
+      {display: 'Siwar'},
+      {display: 'Monira'},
+      {display: 'Samir'},
+      {display: 'Spange Bob'},
+      {display: 'Deneris Targariant'},
+      {display: 'Ned Stark'}
+  ];
+  $scope.onSelect = function (item) {
+      console.log('item', item);
+  };
 
 }])
  
